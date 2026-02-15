@@ -61,9 +61,9 @@ export default function WardDashboard() {
                 setReports(fetchedReports);
 
                 // Calculate stats
-                const activeCount = fetchedReports.filter(r => r.status?.toLowerCase() !== 'resolved').length;
-                const resolvedCount = fetchedReports.filter(r => r.status?.toLowerCase() === 'resolved').length;
-                const pendingCount = fetchedReports.filter(r => r.status?.toLowerCase() === 'open' || r.status?.toLowerCase() === 'pending').length;
+                const activeCount = fetchedReports.filter((r: any) => r.status?.toLowerCase() !== 'resolved').length;
+                const resolvedCount = fetchedReports.filter((r: any) => r.status?.toLowerCase() === 'resolved').length;
+                const pendingCount = fetchedReports.filter((r: any) => r.status?.toLowerCase() === 'open' || r.status?.toLowerCase() === 'pending').length;
 
                 setStats({
                     active: activeCount,
@@ -206,7 +206,7 @@ export default function WardDashboard() {
                                                 <div className="text-right">
                                                     <div className="text-lg font-black">{item.priority}</div>
                                                     <div className={`text-[10px] font-black uppercase tracking-[0.2em] ${item.status?.toLowerCase() === 'resolved' ? 'text-emerald-500' :
-                                                            item.status?.toLowerCase() === 'open' ? 'text-blue-500' : 'text-amber-500'
+                                                        item.status?.toLowerCase() === 'open' ? 'text-blue-500' : 'text-amber-500'
                                                         }`}>
                                                         {item.status}
                                                     </div>
