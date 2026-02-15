@@ -53,18 +53,23 @@ export default function WardDashboard() {
         setIsLoading(true);
         setError(null);
         try {
+            if (!supabase) throw new Error("Supabase client not initialized.");
+
             const { data, error: fetchError } = await supabase
                 .from('reports')
                 .select('*')
                 .order('timestamp', { ascending: false });
 
-            if (fetchError) throw fetchError;
+            if (fetchError) {
+                console.error("Supabase Fetch Error:", fetchError);
+                throw new Error(`Database error: ${fetchError.message} (${fetchError.code})`);
+            }
 
             if (data) {
                 const fetchedReports = data.map((report: any) => ({
                     ...report,
                     date: report.timestamp ? new Date(report.timestamp).toLocaleDateString() : "Pending",
-                    priority: report.priority || "Medium" // Default if missing
+                    priority: report.priority || "Medium"
                 }));
 
                 setReports(fetchedReports);
@@ -79,6 +84,9 @@ export default function WardDashboard() {
                     resolved: resolvedCount,
                     pending: pendingCount
                 });
+            } else {
+                setReports([]);
+                setStats({ active: 0, resolved: 0, pending: 0 });
             }
         } catch (err: any) {
             console.error("Error fetching ward reports:", err);

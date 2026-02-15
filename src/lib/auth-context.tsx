@@ -37,7 +37,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const login = (email: string, fullName?: string, role: string = "citizen") => {
         const mockUser: any = {
-            id: "MOCK-" + Math.random().toString(36).substr(2, 9).toUpperCase(),
+            id: crypto.randomUUID(),
             email,
             full_name: fullName || email.split('@')[0],
             role,

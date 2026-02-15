@@ -102,12 +102,14 @@ export default function ReportIssues() {
     const checkConnection = async () => {
         setConnectionStatus("checking");
         try {
+            if (!supabase) throw new Error("Supabase client not initialized.");
             const { error } = await supabase.from('reports').select('id').limit(1);
             if (error) throw error;
             setConnectionStatus("connected");
-        } catch (error) {
+        } catch (error: any) {
             console.error("Supabase Connection Error:", error);
             setConnectionStatus("error");
+            setSubmitError(`Backend Connection Error: ${error.message || 'Unknown error'}`);
         }
     };
 
@@ -118,8 +120,11 @@ export default function ReportIssues() {
         setMessage({ text: "", type: "" });
 
         try {
+            if (!supabase) throw new Error("Supabase client not initialized.");
+
+            // Initial ping to verify connectivity
             const { error: pingError } = await supabase.from('reports').select('id').limit(1);
-            if (pingError) throw new Error("Could not connect to Supabase database.");
+            if (pingError) throw new Error(`Database connection failed: ${pingError.message}`);
 
             let imageUrl = "";
             if (file) {
@@ -131,7 +136,7 @@ export default function ReportIssues() {
                     .from('reports')
                     .upload(filePath, file);
 
-                if (uploadError) throw uploadError;
+                if (uploadError) throw new Error(`Image upload failed: ${uploadError.message}`);
 
                 const { data: { publicUrl } } = supabase.storage
                     .from('reports')
@@ -144,6 +149,8 @@ export default function ReportIssues() {
             const earnedPoints = Math.floor(Math.random() * 10) + 1;
             const currentPoints = user?.points || 0;
 
+            console.log("Submitting report with User ID:", user?.id);
+
             const { error: insertError } = await supabase
                 .from('reports')
                 .insert([
@@ -155,26 +162,28 @@ export default function ReportIssues() {
                         image_url: imageUrl,
                         status: "Open",
                         timestamp: new Date().toISOString(),
-                        reward_points: earnedPoints, // Store points in reports table
+                        reward_points: earnedPoints,
                     }
                 ]);
 
-            if (insertError) throw insertError;
+            if (insertError) {
+                console.error("Insert Error Code:", insertError.code);
+                throw new Error(`Database insert failed: ${insertError.message} (${insertError.code})`);
+            }
 
-            // Sync points with profiles table
-            // Attempt to use RPC for atomic increment, fallback to update if RPC not found or fails
-            await supabase.rpc('increment_points', {
-                user_id: user?.id,
-                amount: earnedPoints
-            }).catch(async (err: any) => {
-                console.warn("RPC increment_points failed, falling back to direct update:", err);
-                await supabase.from('profiles')
-                    .update({ points: currentPoints + earnedPoints })
-                    .eq('id', user?.id)
-                    .catch((updateErr: any) => console.error("Profile update error:", updateErr));
+            // Sync points with profiles table - ensure profile exists
+            const { error: profileSyncError } = await supabase.from('profiles').upsert({
+                id: user?.id,
+                full_name: user?.full_name,
+                points: currentPoints + earnedPoints,
+                updated_at: new Date().toISOString()
             });
 
-            updateUser({ points: currentPoints + earnedPoints }); // Update local user context
+            if (profileSyncError) {
+                console.warn("Profile sync error (points may not persist):", profileSyncError);
+            }
+
+            updateUser({ points: currentPoints + earnedPoints });
 
             setShowSuccess(true);
             setMessage({
@@ -190,8 +199,8 @@ export default function ReportIssues() {
             setLocation("");
         } catch (error: any) {
             console.error("Supabase Submission Error:", error);
-            setSubmitError(error?.message || "Submission Failed");
-            setMessage({ text: error?.message || "Submission Failed", type: "error" });
+            setSubmitError(error.message || "Submission Failed");
+            setMessage({ text: error.message || "Submission Failed", type: "error" });
         } finally {
             setIsSubmitting(false);
         }
