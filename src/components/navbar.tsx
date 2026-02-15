@@ -39,6 +39,8 @@ export default function Navbar() {
         setLang(lang === "en" ? "kn" : "en");
     };
 
+    if (!isAuthenticated) return null;
+
     return (
         <nav className="bg-blue-50 sticky top-0 z-50 border-b border-blue-100 shadow-sm">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
