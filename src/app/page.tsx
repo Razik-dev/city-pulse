@@ -116,15 +116,8 @@ export default function Home() {
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in delay-200">
                             <Link
-                                href="/login"
-                                className="inline-flex items-center justify-center px-8 py-4 text-base font-black text-white bg-blue-600 rounded-full hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/20 hover:shadow-xl hover:-translate-y-1 uppercase tracking-widest"
-                            >
-                                {t.home.getStarted}
-                                <ArrowRight className="ml-2 w-5 h-5" />
-                            </Link>
-                            <Link
                                 href="/city-info"
-                                className="inline-flex items-center justify-center px-8 py-4 text-base font-medium text-gray-700 bg-white border border-gray-200 rounded-full hover:bg-gray-50 transition-all shadow-sm hover:shadow"
+                                className="inline-flex items-center justify-center px-8 py-4 text-base font-black text-white bg-blue-600 rounded-full hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/20 hover:shadow-xl hover:-translate-y-1 uppercase tracking-widest"
                             >
                                 {t.home.learnMore}
                             </Link>
