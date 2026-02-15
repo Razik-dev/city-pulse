@@ -20,15 +20,19 @@ export default function Navbar() {
     // For better UX, let's show them but reliance is on ProtectedRoute to block access.
     // However, visually hiding them reduces clutter for new users.
     // Let's hide feature links if not logged in, per standard "Get Started" flow.
-    const navItems = isAuthenticated ? [
+    const navItems = isAuthenticated ? (
+        user?.role === "ward_head"
+            ? [{ href: "/ward-dashboard", label: "Ward Dashboard" }]
+            : [
+                { href: "/", label: t.nav.home },
+                { href: "/city-info", label: t.nav.cityInfo },
+                { href: "/report-issues", label: t.nav.reportIssues },
+                { href: "/bill-payments", label: t.nav.billPayments },
+                { href: "/rewards", label: t.nav.rewards },
+                { href: "/analytics", label: t.nav.analytics },
+            ]
+    ) : [
         { href: "/", label: t.nav.home },
-        { href: "/city-info", label: t.nav.cityInfo },
-        { href: "/report-issues", label: t.nav.reportIssues },
-        { href: "/bill-payments", label: t.nav.billPayments },
-        { href: "/rewards", label: t.nav.rewards },
-        { href: "/analytics", label: t.nav.analytics },
-    ] : [
-        { href: "/", label: t.nav.home }, // Public Home
     ];
 
     const handleLangChange = () => {
@@ -36,7 +40,7 @@ export default function Navbar() {
     };
 
     return (
-        <nav className="bg-blue-50 sticky top-0 z-50 border-b border-gray-100 shadow-sm">
+        <nav className="bg-blue-50 sticky top-0 z-50 border-b border-blue-100 shadow-sm">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between h-16">
                     <div className="flex items-center">
@@ -65,9 +69,9 @@ export default function Navbar() {
                                 key={item.href}
                                 href={item.href}
                                 className={cn(
-                                    "px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-blue-50",
+                                    "px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-gray-100",
                                     pathname === item.href
-                                        ? "text-primary bg-blue-50"
+                                        ? "text-primary bg-gray-100"
                                         : "text-gray-600 hover:text-primary"
                                 )}
                             >
@@ -131,8 +135,8 @@ export default function Navbar() {
                                 className={cn(
                                     "block px-3 py-2 rounded-md text-base font-medium",
                                     pathname === item.href
-                                        ? "text-primary bg-blue-50"
-                                        : "text-gray-600 hover:text-primary hover:bg-gray-50"
+                                        ? "text-primary bg-gray-100"
+                                        : "text-gray-600 hover:text-primary hover:bg-gray-100"
                                 )}
                             >
                                 {item.label}

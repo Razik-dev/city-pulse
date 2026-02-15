@@ -55,8 +55,8 @@ export default function Home() {
     return (
         <div className="flex flex-col min-h-[calc(100vh-4rem)]">
             {/* Hero Section */}
-            <section className="relative py-20 lg:py-32 overflow-hidden">
-                <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/20 via-background to-background"></div>
+            <section className="relative py-20 lg:py-32 overflow-hidden bg-blue-50/30">
+                <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-100/50 via-blue-50/50 to-white"></div>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                     <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-gray-900 mb-6 animate-slide-up">
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-600">

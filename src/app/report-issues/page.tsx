@@ -193,7 +193,7 @@ export default function ReportIssues() {
     };
 
     return (
-        <ProtectedRoute>
+        <div className="bg-blue-50/50 min-h-screen pb-20">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
                 <div className="text-center mb-12">
                     {connectionStatus === "checking" && (

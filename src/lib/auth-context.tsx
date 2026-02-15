@@ -8,8 +8,8 @@ import { User } from "@supabase/supabase-js";
 
 type AuthContextType = {
     isAuthenticated: boolean;
-    user: User | null;
-    login: (email: string, fullName?: string) => void;
+    user: (User & { role?: string }) | null;
+    login: (email: string, fullName?: string, role?: string) => void;
     logout: () => void;
 };
 
@@ -34,11 +34,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setIsLoading(false);
     }, []);
 
-    const login = (email: string, fullName?: string) => {
+    const login = (email: string, fullName?: string, role: string = "citizen") => {
         const mockUser: any = {
             id: "MOCK-" + Math.random().toString(36).substr(2, 9).toUpperCase(),
             email,
             full_name: fullName || email.split('@')[0],
+            role,
             created_at: new Date().toISOString(),
         };
         setUser(mockUser);

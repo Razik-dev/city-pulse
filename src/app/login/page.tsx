@@ -4,7 +4,7 @@ import { useTranslation } from "@/lib/translation-context";
 import { useAuth } from "@/lib/auth-context";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Mail, Lock, AlertTriangle, CheckCircle } from "lucide-react";
+import { Mail, Lock, AlertTriangle, CheckCircle, User, ShieldCheck } from "lucide-react";
 
 export default function Login() {
     const { t } = useTranslation();
@@ -20,6 +20,7 @@ export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [fullName, setFullName] = useState("");
+    const [role, setRole] = useState("citizen");
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -34,7 +35,7 @@ export default function Login() {
             await new Promise(resolve => setTimeout(resolve, 800));
 
             // Any email/password is valid in Mock Mode
-            login(email, fullName);
+            login(email, fullName, role);
 
             setSuccessMessage(isLogin ? "Welcome back!" : "Account created successfully!");
 
@@ -78,6 +79,29 @@ export default function Login() {
 
                 <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
                     <div className="space-y-4">
+                        <div className="grid grid-cols-2 gap-4 mb-2">
+                            <button
+                                type="button"
+                                onClick={() => setRole("citizen")}
+                                className={`py-3 px-4 rounded-xl border-2 transition-all font-bold text-sm ${role === "citizen"
+                                    ? "border-primary bg-primary/5 text-primary"
+                                    : "border-gray-100 bg-white text-gray-400 hover:border-gray-200"
+                                    }`}
+                            >
+                                Citizen
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => setRole("ward_head")}
+                                className={`py-3 px-4 rounded-xl border-2 transition-all font-bold text-sm ${role === "ward_head"
+                                    ? "border-primary bg-primary/5 text-primary"
+                                    : "border-gray-100 bg-white text-gray-400 hover:border-gray-200"
+                                    }`}
+                            >
+                                Ward Head
+                            </button>
+                        </div>
+
                         {!isLogin && (
                             <div>
                                 <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">
