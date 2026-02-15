@@ -39,7 +39,7 @@ export default function Navbar() {
         setLang(lang === "en" ? "kn" : "en");
     };
 
-    if (!isAuthenticated) return null;
+    if (pathname === "/login" || !isAuthenticated) return null;
 
     return (
         <nav className="bg-blue-50 sticky top-0 z-50 border-b border-blue-100 shadow-sm">

@@ -8,9 +8,10 @@ import { User } from "@supabase/supabase-js";
 
 type AuthContextType = {
     isAuthenticated: boolean;
-    user: (User & { role?: string }) | null;
+    user: (User & { role?: string; points?: number; full_name?: string }) | null;
     login: (email: string, fullName?: string, role?: string) => void;
     logout: () => void;
+    updateUser: (updates: Partial<(User & { role?: string; points?: number; full_name?: string })>) => void;
 };
 
 const AuthContext = createContext<AuthContextType>({
@@ -18,15 +19,15 @@ const AuthContext = createContext<AuthContextType>({
     user: null,
     login: () => { },
     logout: () => { },
+    updateUser: () => { },
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-    const [user, setUser] = useState<User | null>(null);
+    const [user, setUser] = useState<any | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const router = useRouter();
 
     useEffect(() => {
-        // Mock Auth: Check localStorage for a persistent mock session (optional)
         const savedUser = localStorage.getItem("mock_user");
         if (savedUser) {
             setUser(JSON.parse(savedUser));
@@ -40,6 +41,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             email,
             full_name: fullName || email.split('@')[0],
             role,
+            points: 0,
             created_at: new Date().toISOString(),
         };
         setUser(mockUser);
@@ -52,10 +54,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         router.push("/login");
     };
 
+    const updateUser = (updates: any) => {
+        setUser((prev: any) => {
+            const newUser = { ...prev, ...updates };
+            localStorage.setItem("mock_user", JSON.stringify(newUser));
+            return newUser;
+        });
+    };
+
     const isAuthenticated = !!user;
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, user, login, logout }}>
+        <AuthContext.Provider value={{ isAuthenticated, user, login, logout, updateUser }}>
             {!isLoading && children}
         </AuthContext.Provider>
     );

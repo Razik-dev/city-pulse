@@ -96,7 +96,9 @@
       transform: translate(0px, 0px) scale(1);
     }
   }
+}
 
+@layer utilities {
   .animate-blob {
     animation: blob 7s infinite;
   }
@@ -107,5 +109,39 @@
 
   .animation-delay-4000 {
     animation-delay: 4s;
+  }
+
+  /* Scroll Reveal Animations */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
+    pointer-events: none;
+  }
+
+  .reveal-active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .reveal-delay-100 {
+    transition-delay: 100ms;
+  }
+
+  .reveal-delay-200 {
+    transition-delay: 200ms;
+  }
+
+  .reveal-delay-300 {
+    transition-delay: 300ms;
+  }
+
+  .reveal-delay-400 {
+    transition-delay: 400ms;
+  }
+
+  .reveal-delay-500 {
+    transition-delay: 500ms;
   }
 }

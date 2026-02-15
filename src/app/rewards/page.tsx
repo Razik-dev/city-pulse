@@ -50,7 +50,7 @@ export default function Rewards() {
                                 <span className="text-xs font-bold uppercase tracking-widest bg-white/20 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10">Level 5 Pioneer</span>
                             </div>
                             <p className="text-sm font-medium text-indigo-100 uppercase tracking-widest">Total Points</p>
-                            <p className="text-5xl font-black mt-2 tracking-tight">2,450</p>
+                            <p className="text-5xl font-black mt-2 tracking-tight">{(user?.points || 0).toLocaleString()}</p>
                             <div className="mt-6 h-1 w-full bg-white/20 rounded-full overflow-hidden">
                                 <div className="h-full bg-white w-3/4 shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
                             </div>

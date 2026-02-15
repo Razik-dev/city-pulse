@@ -9,7 +9,7 @@ import { supabase } from "@/lib/supabase";
 
 export default function Profile() {
     const { t } = useTranslation();
-    const { user } = useAuth();
+    const { user, updateUser } = useAuth();
     const [profile, setProfile] = useState<any>(null);
     const [userReports, setUserReports] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -31,7 +31,11 @@ export default function Profile() {
                 .single();
 
             if (profileError) console.error("Error fetching profile:", profileError);
-            setProfile(profileData);
+            if (profileData) {
+                setProfile(profileData);
+                // Sync Supabase points back to AuthContext
+                updateUser({ points: profileData.points || 0 });
+            }
 
             // Fetch Reports
             const { data: reportsData, error: reportsError } = await supabase
@@ -65,7 +69,7 @@ export default function Profile() {
         email: user?.email || "No email",
         id: user?.id?.substring(0, 8).toUpperCase() || "N/A",
         joined: user?.created_at ? new Date(user.created_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : "N/A",
-        points: (userReports.length * 50), // Sample point logic
+        points: user?.points || 0, // Dynamic points from AuthContext
         level: userReports.length > 5 ? "Community Hero" : "Contributor",
         reports: userReports.map(r => ({
             id: r.id,

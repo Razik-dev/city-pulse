@@ -123,7 +123,7 @@ export default function BillPayments() {
                                         <input
                                             type="text"
                                             disabled={!selectedBill}
-                                            className="w-full h-16 px-6 bg-slate-50/50 border-2 border-slate-100 rounded-2xl text-lg font-bold text-slate-900 focus:outline-none focus:border-cyan-500 focus:bg-white transition-all disabled:opacity-30 placeholder-slate-300"
+                                            className="w-full h-16 px-6 bg-white border-2 border-slate-200 rounded-2xl text-lg font-bold text-slate-900 focus:outline-none focus:border-cyan-500 focus:ring-4 focus:ring-cyan-50 focus:bg-white transition-all disabled:opacity-30 placeholder-slate-300 shadow-sm"
                                             placeholder="Enter ID: 123-456-789"
                                         />
                                     </div>

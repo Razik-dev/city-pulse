@@ -82,12 +82,12 @@ export default function Login() {
             <div className="absolute top-0 -right-4 w-72 h-72 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
             <div className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
 
-            <div className="w-full max-w-md space-y-8 backdrop-blur-2xl bg-white/10 p-10 rounded-[2.5rem] shadow-2xl border border-white/20 animate-fade-in relative z-10">
+            <div className="w-full max-w-md space-y-8 backdrop-blur-3xl bg-white/80 p-10 rounded-[2.5rem] shadow-2xl border border-white/40 animate-fade-in relative z-10">
                 <div className="text-center">
-                    <h2 className="text-4xl font-black text-white mb-2 tracking-tighter">
+                    <h2 className="text-4xl font-black text-slate-900 mb-2 tracking-tighter">
                         {isLogin ? t.login.title : t.login.createAccount}
                     </h2>
-                    <p className="text-sm font-medium text-blue-100/60 uppercase tracking-[0.2em]">
+                    <p className="text-sm font-bold text-slate-500 uppercase tracking-[0.2em]">
                         {isLogin ? t.login.subtitle : t.login.createSubtitle}
                     </p>
                 </div>
@@ -113,8 +113,8 @@ export default function Login() {
                                 type="button"
                                 onClick={() => setRole("citizen")}
                                 className={`py-3 px-4 rounded-xl border-2 transition-all font-black text-xs uppercase tracking-widest ${role === "citizen"
-                                    ? "border-blue-400 bg-blue-400/20 text-blue-100 shadow-[0_0_20px_rgba(96,165,250,0.3)]"
-                                    : "border-white/5 bg-white/5 text-gray-400 hover:border-white/10 hover:bg-white/10"
+                                    ? "border-slate-400 bg-slate-400/10 text-slate-700 shadow-[0_0_20px_rgba(148,163,184,0.2)]"
+                                    : "border-slate-100 bg-slate-50/50 text-slate-400 hover:border-slate-200"
                                     }`}
                             >
                                 Citizen
@@ -123,8 +123,8 @@ export default function Login() {
                                 type="button"
                                 onClick={() => setRole("ward_head")}
                                 className={`py-3 px-4 rounded-xl border-2 transition-all font-black text-xs uppercase tracking-widest ${role === "ward_head"
-                                    ? "border-purple-400 bg-purple-400/20 text-purple-100 shadow-[0_0_20px_rgba(192,132,252,0.3)]"
-                                    : "border-white/5 bg-white/5 text-gray-400 hover:border-white/10 hover:bg-white/10"
+                                    ? "border-slate-400 bg-slate-400/10 text-slate-700 shadow-[0_0_20px_rgba(148,163,184,0.2)]"
+                                    : "border-slate-100 bg-slate-50/50 text-slate-400 hover:border-slate-200"
                                     }`}
                             >
                                 Ward Head
@@ -133,10 +133,10 @@ export default function Login() {
 
                         {!isLogin && (
                             <div className="space-y-1">
-                                <label htmlFor="fullName" className="block text-xs font-black text-white/40 uppercase tracking-widest ml-1">
+                                <label htmlFor="fullName" className="block text-xs font-black text-slate-400 uppercase tracking-widest ml-1">
                                     {t.login.fullName}
                                 </label>
-                                <div className="mt-1 relative rounded-2xl overflow-hidden group">
+                                <div className="mt-1 relative rounded-2xl overflow-hidden group border border-slate-200 shadow-sm transition-all focus-within:shadow-md focus-within:border-blue-500/50">
                                     <input
                                         id="fullName"
                                         name="fullName"
@@ -144,7 +144,7 @@ export default function Login() {
                                         value={fullName}
                                         onChange={(e) => setFullName(e.target.value)}
                                         required
-                                        className="block w-full px-6 py-4 bg-white/5 border border-white/10 rounded-2xl text-white placeholder-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:bg-white/10 transition-all font-medium"
+                                        className="block w-full px-6 py-4 bg-white border-none text-slate-900 placeholder-slate-400 focus:outline-none transition-all font-medium"
                                         placeholder={t.login.fullName}
                                     />
                                 </div>
@@ -152,12 +152,12 @@ export default function Login() {
                         )}
 
                         <div className="space-y-1">
-                            <label htmlFor="email" className="block text-xs font-black text-white/40 uppercase tracking-widest ml-1">
+                            <label htmlFor="email" className="block text-xs font-black text-slate-400 uppercase tracking-widest ml-1">
                                 {t.login.email}
                             </label>
-                            <div className="mt-1 relative rounded-2xl overflow-hidden group">
+                            <div className="mt-1 relative rounded-2xl overflow-hidden group border border-slate-200 shadow-sm transition-all focus-within:shadow-md focus-within:border-blue-500/50">
                                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                    <Mail className="h-5 w-5 text-white/30 group-focus-within:text-blue-400 transition-colors" />
+                                    <Mail className="h-5 w-5 text-slate-400 group-focus-within:text-blue-500 transition-colors" />
                                 </div>
                                 <input
                                     id="email"
@@ -167,19 +167,19 @@ export default function Login() {
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     required
-                                    className="block w-full pl-12 pr-6 py-4 bg-white/5 border border-white/10 rounded-2xl text-white placeholder-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:bg-white/10 transition-all font-medium"
+                                    className="block w-full pl-12 pr-6 py-4 bg-white border-none text-slate-900 placeholder-slate-400 focus:outline-none transition-all font-medium"
                                     placeholder="user@example.com"
                                 />
                             </div>
                         </div>
 
                         <div className="space-y-1">
-                            <label htmlFor="password" className="block text-xs font-black text-white/40 uppercase tracking-widest ml-1">
+                            <label htmlFor="password" className="block text-xs font-black text-slate-400 uppercase tracking-widest ml-1">
                                 {t.login.password}
                             </label>
-                            <div className="mt-1 relative rounded-2xl overflow-hidden group">
+                            <div className="mt-1 relative rounded-2xl overflow-hidden group border border-slate-200 shadow-sm transition-all focus-within:shadow-md focus-within:border-blue-500/50">
                                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                    <Lock className="h-5 w-5 text-white/30 group-focus-within:text-blue-400 transition-colors" />
+                                    <Lock className="h-5 w-5 text-slate-400 group-focus-within:text-blue-500 transition-colors" />
                                 </div>
                                 <input
                                     id="password"
@@ -189,7 +189,7 @@ export default function Login() {
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     required
-                                    className="block w-full pl-12 pr-6 py-4 bg-white/5 border border-white/10 rounded-2xl text-white placeholder-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:bg-white/10 transition-all font-medium"
+                                    className="block w-full pl-12 pr-6 py-4 bg-white border-none text-slate-900 placeholder-slate-400 focus:outline-none transition-all font-medium"
                                     placeholder="••••••••"
                                 />
                             </div>
@@ -223,10 +223,10 @@ export default function Login() {
                 <div className="mt-8 space-y-6">
                     <div className="relative">
                         <div className="absolute inset-0 flex items-center">
-                            <div className="w-full border-t border-white/10"></div>
+                            <div className="w-full border-t border-slate-100"></div>
                         </div>
                         <div className="relative flex justify-center text-[10px] font-black uppercase tracking-widest">
-                            <span className="px-2 bg-slate-900 text-white/40">Secure Connection</span>
+                            <span className="px-2 bg-white/50 text-slate-400">Secure Connection</span>
                         </div>
                     </div>
 
@@ -234,7 +234,7 @@ export default function Login() {
                         <button
                             type="button"
                             onClick={() => setIsLogin(!isLogin)}
-                            className="w-full flex justify-center py-4 px-4 border border-white/10 rounded-xl shadow-sm text-xs font-black text-white uppercase tracking-widest bg-white/5 hover:bg-white/10 focus:outline-none transition-all"
+                            className="w-full flex justify-center py-4 px-4 border border-slate-100 rounded-xl shadow-sm text-xs font-black text-slate-600 uppercase tracking-widest bg-white/50 hover:bg-white/80 focus:outline-none transition-all"
                         >
                             {isLogin ? "Join City Pulse" : "Back to Login"}
                         </button>

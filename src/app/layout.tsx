@@ -4,6 +4,7 @@ import "./globals.css";
 import { TranslationProvider } from "@/lib/translation-context";
 import { AuthProvider } from "@/lib/auth-context";
 import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,6 +28,7 @@ export default function RootLayout({
                             <main className="flex-grow">
                                 {children}
                             </main>
+                            <Footer />
                         </div>
                     </TranslationProvider>
                 </AuthProvider>
