@@ -72,13 +72,42 @@ export default function ReportIssues() {
         }
     };
 
-    const handleGetLocation = () => {
+    const handleGetLocation = async () => {
         setIsLocating(true);
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(
-                (position) => {
+                async (position) => {
                     const { latitude, longitude } = position.coords;
-                    setLocation(`${latitude.toFixed(4)}, ${longitude.toFixed(4)}`);
+
+                    try {
+                        // Use reverse geocoding to get readable address
+                        const response = await fetch(
+                            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`
+                        );
+                        const data = await response.json();
+
+                        // Format a readable address
+                        const address = data.address;
+                        let readableLocation = '';
+
+                        if (address.road) readableLocation += address.road;
+                        if (address.suburb) readableLocation += (readableLocation ? ', ' : '') + address.suburb;
+                        if (address.city || address.town || address.village) {
+                            readableLocation += (readableLocation ? ', ' : '') + (address.city || address.town || address.village);
+                        }
+
+                        // Fallback to coordinates if no address found
+                        if (!readableLocation) {
+                            readableLocation = `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`;
+                        }
+
+                        setLocation(readableLocation);
+                    } catch (error) {
+                        console.error("Error getting address:", error);
+                        // Fallback to coordinates if geocoding fails
+                        setLocation(`${latitude.toFixed(4)}, ${longitude.toFixed(4)}`);
+                    }
+
                     setIsLocating(false);
                 },
                 (error) => {

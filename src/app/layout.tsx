@@ -5,6 +5,7 @@ import { TranslationProvider } from "@/lib/translation-context";
 import { AuthProvider } from "@/lib/auth-context";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import Chatbot from "@/components/chatbot";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,6 +30,7 @@ export default function RootLayout({
                                 {children}
                             </main>
                             <Footer />
+                            <Chatbot />
                         </div>
                     </TranslationProvider>
                 </AuthProvider>
