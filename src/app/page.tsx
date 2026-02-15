@@ -3,9 +3,22 @@
 import { useTranslation } from "@/lib/translation-context";
 import Link from "next/link";
 import { ArrowRight, BarChart3, Cloud, FileText, Lightbulb, MapPin, Zap } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
 
 export default function Home() {
     const { t } = useTranslation();
+    const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+    const [isHovering, setIsHovering] = useState(false);
+    const heroRef = useRef<HTMLDivElement>(null);
+
+    const handleMouseMove = (e: React.MouseEvent) => {
+        if (!heroRef.current) return;
+        const rect = heroRef.current.getBoundingClientRect();
+        setMousePos({
+            x: e.clientX - rect.left,
+            y: e.clientY - rect.top,
+        });
+    };
 
     const features = [
         {
@@ -55,9 +68,29 @@ export default function Home() {
     return (
         <div className="flex flex-col min-h-[calc(100vh-4rem)]">
             {/* Hero Section */}
-            <section className="relative py-20 lg:py-32 overflow-hidden bg-blue-50/30">
+            <section
+                ref={heroRef}
+                onMouseMove={handleMouseMove}
+                onMouseEnter={() => setIsHovering(true)}
+                onMouseLeave={() => setIsHovering(false)}
+                className="relative py-20 lg:py-32 overflow-hidden bg-blue-50/30 transition-colors duration-500"
+            >
+                {/* Static Background Gradients */}
                 <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-100/50 via-blue-50/50 to-white"></div>
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+
+                {/* Interactive Mouse-Follow Glow */}
+                <div
+                    className={`absolute inset-0 -z-10 pointer-events-none transition-opacity duration-700 ${isHovering ? 'opacity-100' : 'opacity-0'}`}
+                    style={{
+                        background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, rgba(59, 130, 246, 0.15), transparent 80%)`,
+                    }}
+                ></div>
+
+                {/* Animated Floating Blurs */}
+                <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-200/20 rounded-full blur-[120px] animate-pulse -z-10"></div>
+                <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-primary/10 rounded-full blur-[100px] animate-pulse delay-700 -z-10"></div>
+
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
                     <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-gray-900 mb-6 animate-slide-up">
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-600">
                             {t.home.heroTitle}
